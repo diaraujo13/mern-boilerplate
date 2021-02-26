@@ -1,5 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 const CURRENT_WORKING_DIR = process.cwd()
 
 const config = {
@@ -21,7 +25,16 @@ const config = {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: [
-                    'babel-loader'
+                    {
+                        loader: require.resolve('babel-loader'),
+                        options: {
+                          // ... other options
+                          plugins: [
+                            // ... other plugins
+                            isDevelopment && require.resolve('react-refresh/babel'),
+                          ].filter(Boolean),
+                        },
+                      },
                 ]
             },
             {
@@ -31,8 +44,8 @@ const config = {
         ]
     },  
     plugins: [
-          new webpack.HotModuleReplacementPlugin(),
-          new webpack.NoEmitOnErrorsPlugin()
+          isDevelopment && new ReactRefreshWebpackPlugin(),
+          new webpack.NoEmitOnErrorsPlugin(),
     ],
     resolve: {
         alias: {
