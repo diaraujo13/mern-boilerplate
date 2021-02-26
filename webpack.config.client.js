@@ -44,6 +44,8 @@ const config = {
         ]
     },  
     plugins: [
+            isDevelopment && new webpack.HotModuleReplacementPlugin(),
+
           isDevelopment && new ReactRefreshWebpackPlugin(),
           new webpack.NoEmitOnErrorsPlugin(),
     ],
