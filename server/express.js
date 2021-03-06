@@ -2,6 +2,7 @@ import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import morgan from 'morgan'
 import compress from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
@@ -36,7 +37,7 @@ app.use(compress())
 app.use(helmet())
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors())
-
+app.use(morgan("dev"))
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
 
 // mount routes
